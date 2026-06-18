@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#fff7ee" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="Двое на день" />
+    <title>Двое на день</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="styles.css?v=20" />
+  </head>
+  <body>
+    <img class="page-bg" id="pageBackground" src="https://images.unsplash.com/photo-1755127761449-47f246511c9a?auto=format&fit=crop&w=1200&q=75" alt="" />
+    <main class="app-shell">
+      <section class="hero" aria-label="Сегодняшнее задание">
+        <div class="topbar">
+          <div>
+            <p class="eyebrow">Ежедневное приключение</p>
+            <h1>Двое на день</h1>
+          </div>
+          <button class="icon-button" id="settingsButton" type="button" aria-label="Настройки">
+            <span aria-hidden="true">⚙</span>
+          </button>
+        </div>
+        <article class="task-card" id="taskCard">
+          <div class="card-head">
+            <span class="pill" id="taskTag">На улице</span>
+            <div class="card-tools">
+              <button class="favorite-button" id="favoriteButton" type="button" aria-label="Добавить в избранное">
+                <span aria-hidden="true">♡</span>
+              </button>
+              <span class="date" id="todayLabel"></span>
+            </div>
+          </div>
+          <h2 id="taskTitle"></h2>
+          <p id="taskText"></p>
+          <div class="task-meta">
+            <span id="timeMeta"></span>
+            <span id="costMeta"></span>
+            <span id="energyMeta"></span>
+          </div>
+          <div class="actions">
+            <button class="primary" id="doneButton" type="button">Готово</button>
+            <button class="secondary" id="shuffleButton" type="button" aria-label="Другое задание">
+              <span aria-hidden="true">↻</span>
+            </button>
+          </div>
+        </article>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>Настроение дня</h2>
+          <button class="text-button" id="resetFilters" type="button">Сброс</button>
+        </div>
+        <div class="chips" id="moodChips" aria-label="Фильтр заданий"></div>
+      </section>
+
+      <section class="panel two-col">
+        <div class="stat">
+          <strong id="streakValue">0</strong>
+          <span>дней вместе</span>
+        </div>
+        <div class="stat">
+          <strong id="completedValue">0</strong>
+          <span>выполнено</span>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>Избранное</h2>
+          <span class="counter" id="favoriteCount">0</span>
+        </div>
+        <ul class="custom-list" id="favoriteList"></ul>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>Свои задания</h2>
+          <span class="counter" id="customCount">0</span>
+        </div>
+        <form class="custom-task-form" id="customTaskForm">
+          <label class="field compact">
+            <span>Название</span>
+            <input id="customTitle" type="text" maxlength="42" placeholder="например, ночная прогулка" />
+          </label>
+          <label class="field compact">
+            <span>Описание</span>
+            <textarea id="customText" maxlength="180" placeholder="Что нужно сделать вместе?"></textarea>
+          </label>
+          <div class="custom-row">
+            <select id="customMood" aria-label="Категория своего задания">
+              <option value="quiet">Спокойно</option>
+              <option value="outdoor">На воздух</option>
+              <option value="home">Дома</option>
+              <option value="playful">Игра</option>
+              <option value="adventure">Спонтанно</option>
+            </select>
+            <button class="primary add-button" type="submit">Добавить</button>
+          </div>
+        </form>
+        <ul class="custom-list" id="customList"></ul>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>Недавние</h2>
+          <button class="text-button" id="clearHistory" type="button">Очистить</button>
+        </div>
+        <ul class="history" id="historyList"></ul>
+      </section>
+    </main>
+
+    <dialog class="settings" id="settingsDialog">
+      <form method="dialog">
+        <div class="section-title">
+          <h2>Настройки</h2>
+          <button class="icon-button small" value="close" aria-label="Закрыть">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <label class="field">
+          <span>Ваше имя</span>
+          <input id="yourName" type="text" maxlength="24" placeholder="например, Макс" />
+        </label>
+        <label class="field">
+          <span>Имя партнера</span>
+          <input id="partnerName" type="text" maxlength="24" placeholder="например, Аня" />
+        </label>
+        <label class="field">
+          <span>Город или район</span>
+          <input id="placeHint" type="text" maxlength="36" placeholder="например, Варшава" />
+        </label>
+        <label class="field">
+          <span>Дата начала отношений</span>
+          <input id="relationshipStart" type="date" />
+        </label>
+        <label class="toggle">
+          <input id="quietMode" type="checkbox" />
+          <span>Больше спокойных заданий</span>
+        </label>
+        <button class="primary full" id="saveSettings" value="save">Сохранить</button>
+      </form>
+    </dialog>
+
+    <dialog class="settings note-dialog" id="noteDialog">
+      <form method="dialog">
+        <div class="section-title">
+          <h2>Как прошло?</h2>
+          <button class="icon-button small" value="close" aria-label="Закрыть">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <p class="dialog-copy" id="noteTaskTitle"></p>
+        <label class="field">
+          <span>Заметка</span>
+          <textarea id="completionNote" maxlength="220" placeholder="Одна фраза на память"></textarea>
+        </label>
+        <button class="primary full" id="saveNoteButton" value="save">Сохранить заметку</button>
+      </form>
+    </dialog>
+
+    <script src="app.js?v=20"></script>
+  </body>
+</html>

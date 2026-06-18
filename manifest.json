@@ -1,0 +1,17 @@
+{
+  "name": "Двое на день",
+  "short_name": "Двое",
+  "description": "Ежедневные случайные задания для пары.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#fff7ee",
+  "theme_color": "#fff7ee",
+  "icons": [
+    {
+      "src": "assets/app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

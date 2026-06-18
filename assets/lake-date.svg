@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 560" role="img" aria-label="Плед, карта и озеро на закате">
+  <defs>
+    <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#ffe1ae"/>
+      <stop offset=".45" stop-color="#fff3dc"/>
+      <stop offset="1" stop-color="#dff0ec"/>
+    </linearGradient>
+    <linearGradient id="water" x1="0" x2="1">
+      <stop offset="0" stop-color="#4c9da3"/>
+      <stop offset="1" stop-color="#236a76"/>
+    </linearGradient>
+  </defs>
+  <rect width="920" height="560" fill="url(#sky)"/>
+  <circle cx="724" cy="112" r="72" fill="#f2a34b" opacity=".92"/>
+  <path d="M0 238c82-37 142-53 221-36 82 18 138 3 214-28 65-27 122-37 188-13 89 31 174 25 297-34v177H0z" fill="#6f995e" opacity=".9"/>
+  <path d="M0 280c105-31 197-38 279-20 88 20 171 18 249-6 138-42 258-28 392 24v282H0z" fill="url(#water)"/>
+  <path d="M70 326c104 24 205 24 303 0M520 338c87 18 182 14 285-10M135 390c137 23 270 18 397-14M610 428c66 12 135 9 208-8" fill="none" stroke="#bce4dc" stroke-width="9" stroke-linecap="round" opacity=".55"/>
+  <path d="M0 438c111-30 204-34 280-11 97 29 194 24 291-15 105-43 221-36 349 20v128H0z" fill="#e9c37d"/>
+  <path d="M252 410l306 28-86 88-346-27z" fill="#e86f5b"/>
+  <path d="M252 410l73 7-126 95-73-13z" fill="#f7d28a"/>
+  <path d="M325 417l72 7-118 98-80-10z" fill="#fff6e8"/>
+  <path d="M397 424l82 8-117 98-83-8z" fill="#f7d28a"/>
+  <path d="M479 432l79 6-86 88-110 4z" fill="#fff6e8"/>
+  <path d="M572 355c28-10 66 2 84 24 21 25 9 54-28 67-41 14-91-1-107-31-13-25 8-51 51-60z" fill="#684331"/>
+  <path d="M584 372c22-6 49 4 61 20 12 18 2 37-22 44-27 7-59-3-69-23-9-18 4-35 30-41z" fill="#fff6e8"/>
+  <path d="M620 362c-3-36 30-64 68-55 33 8 49 45 30 75-17 27-59 33-82 11-9-9-14-19-16-31z" fill="#2f7f87"/>
+  <path d="M647 319c24-21 63-17 83 8" fill="none" stroke="#1e4f56" stroke-width="12" stroke-linecap="round"/>
+  <path d="M326 343l147 42-38 91-157-41z" fill="#fffaf4"/>
+  <path d="M344 371l84 24M334 398l66 18M404 421l37 11" stroke="#d0b694" stroke-width="9" stroke-linecap="round"/>
+  <path d="M242 351c28-8 58 8 65 35 8 30-13 58-45 61-31 3-57-20-58-50-1-22 14-40 38-46z" fill="#f9f1df"/>
+  <path d="M234 372c20-10 45 1 51 22" fill="none" stroke="#bd7b48" stroke-width="10" stroke-linecap="round"/>
+</svg>
