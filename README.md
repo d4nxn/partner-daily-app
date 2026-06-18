@@ -1,35 +1,35 @@
-# Двое на день
+# Daily Duo
 
-Это мои пробы вайбкодинга: маленькое мобильное PWA-приложение для пары, которое каждый день предлагает случайное совместное задание.
+This project is part of my vibe coding experiments: a small mobile-first PWA for couples that suggests a random activity to do together every day.
 
-## Что умеет
+## Features
 
-- Показывает ежедневное задание для двоих.
-- Подбирает реалистичный фон под конкретное задание.
-- Позволяет фильтровать задания по настроению: прогулка, дом, игра, спокойное, спонтанное.
-- Сохраняет выполненные задания в историю.
-- Позволяет раскрывать историю и смотреть описание задания.
-- Дает добавить заметку после выполнения.
-- Поддерживает избранные задания.
-- Позволяет добавлять свои задания.
-- Считает дни отношений по дате начала.
-- Хранит данные локально в браузере через `localStorage`.
+- Shows a daily activity for two people.
+- Uses realistic background photos related to the current task.
+- Filters tasks by mood: outdoors, home, playful, calm, and spontaneous.
+- Saves completed tasks to local history.
+- Lets you expand completed tasks to read the full description.
+- Lets you add a short note after completing a task.
+- Supports favorite tasks.
+- Lets you add custom tasks.
+- Calculates relationship days from a start date.
+- Stores user data locally in the browser with `localStorage`.
 
-## Как запустить
+## Running Locally
 
-Откройте `index.html` в браузере или запустите локальный сервер:
+Open `index.html` directly in a browser, or run a local server:
 
 ```bash
 python -m http.server 4173
 ```
 
-После этого приложение будет доступно по адресу:
+Then open:
 
 ```text
 http://127.0.0.1:4173
 ```
 
-## Структура проекта
+## Project Structure
 
 ```text
 .
@@ -41,7 +41,7 @@ http://127.0.0.1:4173
 └── assets/
 ```
 
-## Технологии
+## Tech Stack
 
 - HTML
 - CSS
@@ -50,30 +50,32 @@ http://127.0.0.1:4173
 - Service Worker
 - Unsplash photo backgrounds
 
-## Данные
+## Local Data
 
-Все пользовательские данные сохраняются только локально в браузере:
+The app stores all personal data locally in the browser:
 
-- настройки;
-- имена;
-- дата начала отношений;
-- выполненные задания;
-- заметки;
-- избранное;
-- свои задания.
+- settings;
+- names;
+- relationship start date;
+- completed tasks;
+- completion notes;
+- favorites;
+- custom tasks.
 
-## Статус
+No backend or account system is included.
 
-Проект экспериментальный, сделан как прототип для личного использования и дальнейших проб вайбкодинга.
+## Status
 
-## Идеи для развития
+This is an experimental prototype built for personal use and for exploring vibe coding workflows.
 
-- Уведомления о задании дня.
-- Импорт и экспорт своих заданий.
-- Фото к выполненным заданиям.
-- Календарь воспоминаний.
-- Синхронизация между устройствами.
+## Future Ideas
 
-## Лицензия
+- Daily reminders.
+- Import and export for custom tasks.
+- Photos for completed activities.
+- A memories calendar.
+- Cross-device sync.
 
-Пока лицензия не выбрана. Если проект станет публичным, стоит добавить `LICENSE`.
+## License
+
+No license has been selected yet. If this project becomes public, a `LICENSE` file should be added.
