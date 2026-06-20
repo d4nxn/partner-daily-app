@@ -377,6 +377,9 @@ const els = {
   customText: document.querySelector("#customText"),
   customMood: document.querySelector("#customMood"),
   customList: document.querySelector("#customList"),
+  customView: document.querySelector("#customView"),
+  openCustomView: document.querySelector("#openCustomView"),
+  closeCustomView: document.querySelector("#closeCustomView"),
   clearHistory: document.querySelector("#clearHistory"),
   settingsButton: document.querySelector("#settingsButton"),
   settingsDialog: document.querySelector("#settingsDialog"),
@@ -699,6 +702,27 @@ els.clearHistory.addEventListener("click", () => {
   renderHistory();
 });
 
+function setCustomView(open) {
+  els.customView.classList.toggle("open", open);
+  els.customView.setAttribute("aria-hidden", String(!open));
+  document.body.classList.toggle("custom-view-open", open);
+  if (open) {
+    els.customView.scrollTop = 0;
+    setTimeout(() => els.customTitle.focus(), 180);
+  } else {
+    els.openCustomView.focus();
+  }
+}
+
+els.openCustomView.addEventListener("click", () => setCustomView(true));
+els.closeCustomView.addEventListener("click", () => setCustomView(false));
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "Escape" && els.customView.classList.contains("open")) {
+    setCustomView(false);
+  }
+});
+
 els.customTaskForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const title = els.customTitle.value.trim();
@@ -720,6 +744,7 @@ els.customTaskForm.addEventListener("submit", (event) => {
   els.customTaskForm.reset();
   save();
   renderAll();
+  els.customTitle.focus();
 });
 
 els.customList.addEventListener("click", (event) => {

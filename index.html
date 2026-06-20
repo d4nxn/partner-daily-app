@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-title" content="Двое на день" />
     <title>Двое на день</title>
     <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" href="styles.css?v=20" />
+    <link rel="stylesheet" href="styles.css?v=21" />
   </head>
   <body>
     <img class="page-bg" id="pageBackground" src="https://images.unsplash.com/photo-1755127761449-47f246511c9a?auto=format&fit=crop&w=1200&q=75" alt="" />
@@ -78,40 +78,62 @@
 
       <section class="panel">
         <div class="section-title">
-          <h2>Свои задания</h2>
-          <span class="counter" id="customCount">0</span>
-        </div>
-        <form class="custom-task-form" id="customTaskForm">
-          <label class="field compact">
-            <span>Название</span>
-            <input id="customTitle" type="text" maxlength="42" placeholder="например, ночная прогулка" />
-          </label>
-          <label class="field compact">
-            <span>Описание</span>
-            <textarea id="customText" maxlength="180" placeholder="Что нужно сделать вместе?"></textarea>
-          </label>
-          <div class="custom-row">
-            <select id="customMood" aria-label="Категория своего задания">
-              <option value="quiet">Спокойно</option>
-              <option value="outdoor">На воздух</option>
-              <option value="home">Дома</option>
-              <option value="playful">Игра</option>
-              <option value="adventure">Спонтанно</option>
-            </select>
-            <button class="primary add-button" type="submit">Добавить</button>
-          </div>
-        </form>
-        <ul class="custom-list" id="customList"></ul>
-      </section>
-
-      <section class="panel">
-        <div class="section-title">
           <h2>Недавние</h2>
           <button class="text-button" id="clearHistory" type="button">Очистить</button>
         </div>
         <ul class="history" id="historyList"></ul>
       </section>
     </main>
+
+    <section class="custom-view" id="customView" aria-hidden="true">
+      <div class="custom-view-inner">
+        <header class="custom-view-header">
+          <button class="icon-button" id="closeCustomView" type="button" aria-label="Вернуться к заданию">
+            <span aria-hidden="true">←</span>
+          </button>
+          <div>
+            <p class="eyebrow">Ваша коллекция</p>
+            <h2>Создать свой квест</h2>
+          </div>
+          <span class="counter" id="customCount">0</span>
+        </header>
+
+        <div class="custom-view-content">
+          <form class="custom-task-form custom-task-editor" id="customTaskForm">
+            <label class="field compact">
+              <span>Название</span>
+              <input id="customTitle" type="text" maxlength="42" placeholder="например, ночная прогулка" required />
+            </label>
+            <label class="field compact">
+              <span>Описание</span>
+              <textarea id="customText" maxlength="180" placeholder="Что нужно сделать вместе?" required></textarea>
+            </label>
+            <label class="field compact">
+              <span>Категория</span>
+              <select id="customMood" aria-label="Категория своего задания">
+                <option value="quiet">Спокойно</option>
+                <option value="outdoor">На воздухе</option>
+                <option value="home">Дома</option>
+                <option value="playful">Игра</option>
+                <option value="adventure">Спонтанно</option>
+              </select>
+            </label>
+            <button class="primary add-button" type="submit">Добавить квест</button>
+          </form>
+
+          <section class="custom-collection" aria-labelledby="customCollectionTitle">
+            <div class="section-title">
+              <h3 id="customCollectionTitle">Мои квесты</h3>
+            </div>
+            <ul class="custom-list" id="customList"></ul>
+          </section>
+        </div>
+      </div>
+    </section>
+
+    <button class="quest-fab" id="openCustomView" type="button" aria-label="Создать свой квест">
+      <span aria-hidden="true">+</span>
+    </button>
 
     <dialog class="settings" id="settingsDialog">
       <form method="dialog">
@@ -162,6 +184,6 @@
       </form>
     </dialog>
 
-    <script src="app.js?v=20"></script>
+    <script src="app.js?v=21"></script>
   </body>
 </html>
