@@ -4,8 +4,8 @@
   "description": "Ежедневные случайные задания для пары.",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#fff7ee",
-  "theme_color": "#fff7ee",
+  "background_color": "#fff5e8",
+  "theme_color": "#fff5e8",
   "icons": [
     {
       "src": "assets/app-icon.svg",
