@@ -399,17 +399,18 @@ button:disabled {
   position: fixed;
   z-index: 30;
   left: 50%;
-  bottom: calc(10px + env(safe-area-inset-bottom));
+  bottom: 0;
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  width: min(calc(100% - 24px), 430px);
-  min-height: 72px;
-  padding: 7px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.78);
-  border-radius: 8px;
+  width: min(100%, 460px);
+  min-height: calc(72px + env(safe-area-inset-bottom));
+  padding: 7px 12px calc(7px + env(safe-area-inset-bottom));
+  border: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.78);
+  border-radius: 0;
   background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 16px 40px rgba(36, 31, 26, 0.24);
+  box-shadow: 0 -12px 34px rgba(36, 31, 26, 0.18);
   backdrop-filter: blur(18px);
   transform: translateX(-50%);
 }
