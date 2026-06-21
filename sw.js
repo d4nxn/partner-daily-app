@@ -1,9 +1,9 @@
-const CACHE_NAME = "daily-duo-v19";
+const CACHE_NAME = "daily-duo-v25";
 const FILES = [
   "./",
   "./index.html",
-  "./styles.css?v=21",
-  "./app.js?v=21",
+  "./styles.css?v=27",
+  "./app.js?v=27",
   "./manifest.json",
   "./assets/bg-outdoor.svg",
   "./assets/bg-home.svg",

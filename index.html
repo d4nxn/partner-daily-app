@@ -8,7 +8,7 @@
     <meta name="apple-mobile-web-app-title" content="Двое на день" />
     <title>Двое на день</title>
     <link rel="manifest" href="manifest.json" />
-    <link rel="stylesheet" href="styles.css?v=21" />
+    <link rel="stylesheet" href="styles.css?v=27" />
   </head>
   <body>
     <img class="page-bg" id="pageBackground" src="https://images.unsplash.com/photo-1755127761449-47f246511c9a?auto=format&fit=crop&w=1200&q=75" alt="" />
@@ -19,9 +19,6 @@
             <p class="eyebrow">Ежедневное приключение</p>
             <h1>Двое на день</h1>
           </div>
-          <button class="icon-button" id="settingsButton" type="button" aria-label="Настройки">
-            <span aria-hidden="true">⚙</span>
-          </button>
         </div>
         <article class="task-card" id="taskCard">
           <div class="card-head">
@@ -108,16 +105,23 @@
               <span>Описание</span>
               <textarea id="customText" maxlength="180" placeholder="Что нужно сделать вместе?" required></textarea>
             </label>
-            <label class="field compact">
+            <div class="field compact">
               <span>Категория</span>
-              <select id="customMood" aria-label="Категория своего задания">
-                <option value="quiet">Спокойно</option>
-                <option value="outdoor">На воздухе</option>
-                <option value="home">Дома</option>
-                <option value="playful">Игра</option>
-                <option value="adventure">Спонтанно</option>
-              </select>
-            </label>
+              <div class="select-menu" id="customMoodMenu">
+                <button class="select-menu-button" id="customMoodButton" type="button" aria-expanded="false" aria-controls="customMoodOptions">
+                  <span id="customMoodLabel">Спокойно</span>
+                  <span class="select-menu-chevron" aria-hidden="true"></span>
+                </button>
+                <div class="select-menu-options" id="customMoodOptions" role="listbox" aria-label="Категория своего задания" aria-hidden="true" inert>
+                  <button class="selected" type="button" role="option" data-custom-mood="quiet" aria-selected="true">Спокойно</button>
+                  <button type="button" role="option" data-custom-mood="outdoor" aria-selected="false">На воздухе</button>
+                  <button type="button" role="option" data-custom-mood="home" aria-selected="false">Дома</button>
+                  <button type="button" role="option" data-custom-mood="playful" aria-selected="false">Игра</button>
+                  <button type="button" role="option" data-custom-mood="adventure" aria-selected="false">Спонтанно</button>
+                </div>
+                <input id="customMood" type="hidden" value="quiet" />
+              </div>
+            </div>
             <button class="primary add-button" type="submit">Добавить квест</button>
           </form>
 
@@ -131,18 +135,27 @@
       </div>
     </section>
 
-    <button class="quest-fab" id="openCustomView" type="button" aria-label="Создать свой квест">
-      <span aria-hidden="true">+</span>
-    </button>
+    <nav class="bottom-nav" aria-label="Основная навигация">
+      <button class="bottom-nav-item active" id="homeButton" type="button" aria-label="Главная" aria-current="page">
+        <span class="nav-glyph" aria-hidden="true">⌂</span>
+        <span>Главная</span>
+      </button>
+      <button class="quest-fab" id="openCustomView" type="button" aria-label="Создать свой квест">
+        <span class="plus-icon" aria-hidden="true"></span>
+      </button>
+      <button class="bottom-nav-item" id="settingsButton" type="button" aria-label="Профиль и настройки">
+        <span class="nav-glyph" aria-hidden="true">⚙</span>
+        <span>Профиль</span>
+      </button>
+    </nav>
 
-    <dialog class="settings" id="settingsDialog">
-      <form method="dialog">
-        <div class="section-title">
-          <h2>Настройки</h2>
-          <button class="icon-button small" value="close" aria-label="Закрыть">
-            <span aria-hidden="true">×</span>
-          </button>
-        </div>
+    <section class="profile-view" id="profileView" aria-hidden="true">
+      <div class="profile-view-inner">
+        <header class="profile-view-header">
+          <p class="eyebrow">Только для вас двоих</p>
+          <h2>Профиль и настройки</h2>
+        </header>
+        <form class="profile-form">
         <label class="field">
           <span>Ваше имя</span>
           <input id="yourName" type="text" maxlength="24" placeholder="например, Макс" />
@@ -163,9 +176,10 @@
           <input id="quietMode" type="checkbox" />
           <span>Больше спокойных заданий</span>
         </label>
-        <button class="primary full" id="saveSettings" value="save">Сохранить</button>
-      </form>
-    </dialog>
+          <button class="primary full" id="saveSettings" type="button">Сохранить</button>
+        </form>
+      </div>
+    </section>
 
     <dialog class="settings note-dialog" id="noteDialog">
       <form method="dialog">
@@ -184,6 +198,6 @@
       </form>
     </dialog>
 
-    <script src="app.js?v=21"></script>
+    <script src="app.js?v=27"></script>
   </body>
 </html>

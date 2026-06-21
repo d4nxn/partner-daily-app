@@ -376,13 +376,18 @@ const els = {
   customTitle: document.querySelector("#customTitle"),
   customText: document.querySelector("#customText"),
   customMood: document.querySelector("#customMood"),
+  customMoodMenu: document.querySelector("#customMoodMenu"),
+  customMoodButton: document.querySelector("#customMoodButton"),
+  customMoodLabel: document.querySelector("#customMoodLabel"),
+  customMoodOptions: document.querySelector("#customMoodOptions"),
   customList: document.querySelector("#customList"),
   customView: document.querySelector("#customView"),
   openCustomView: document.querySelector("#openCustomView"),
   closeCustomView: document.querySelector("#closeCustomView"),
+  homeButton: document.querySelector("#homeButton"),
   clearHistory: document.querySelector("#clearHistory"),
   settingsButton: document.querySelector("#settingsButton"),
-  settingsDialog: document.querySelector("#settingsDialog"),
+  profileView: document.querySelector("#profileView"),
   yourName: document.querySelector("#yourName"),
   partnerName: document.querySelector("#partnerName"),
   placeHint: document.querySelector("#placeHint"),
@@ -404,6 +409,9 @@ const state = {
   customTasks: JSON.parse(localStorage.getItem("dd_customTasks") || "[]"),
   pendingNoteId: null,
 };
+
+let activeView = "home";
+let homeScrollY = window.scrollY;
 
 function dayKey(date = new Date()) {
   return date.toISOString().slice(0, 10);
@@ -538,23 +546,38 @@ function renderHistory() {
   els.historyList.innerHTML = state.history
     .slice(0, 5)
     .map(
-      (item) => `<li>
-        <details class="history-item">
-          <summary>
-            <span>${escapeHtml(item.title)}</span>
-            <time>${formatShortDate(item.date)}</time>
-          </summary>
-          <p>${escapeHtml(item.text || "Описание для этого задания не сохранено.")}</p>
-          ${item.note ? `<p class="history-note">${escapeHtml(item.note)}</p>` : ""}
-          <div class="history-meta">
-            <span>${escapeHtml(item.time || "")}</span>
-            <span>${escapeHtml(item.cost || "")}</span>
-            <span>${escapeHtml(item.energy || "")}</span>
+      (item) => `<li class="history-entry" data-history-row>
+        <button class="history-row-toggle" type="button" aria-expanded="false">
+          <span class="history-title">${escapeHtml(item.title)}</span>
+          <time>${formatShortDate(item.date)}</time>
+        </button>
+        <button class="history-delete" type="button" data-delete-history="${escapeHtml(historyItemId(item))}" aria-label="Удалить ${escapeHtml(item.title)}">×</button>
+        <div class="history-details-shell" aria-hidden="true" inert>
+          <div class="history-details-content">
+            <p class="history-description">${escapeHtml(item.text || "Описание для этого задания не сохранено.")}</p>
+            ${item.note ? `<div class="history-note"><strong>Ваша заметка</strong><p>${escapeHtml(item.note)}</p></div>` : ""}
+            <div class="history-meta">
+              <span>${escapeHtml(item.time || "")}</span>
+              <span>${escapeHtml(item.cost || "")}</span>
+              <span>${escapeHtml(item.energy || "")}</span>
+            </div>
+            <button class="history-favorite ${state.favorites.includes(historyTaskId(item)) ? "active" : ""}" type="button" data-history-favorite="${escapeHtml(historyTaskId(item))}">
+              <span aria-hidden="true">${state.favorites.includes(historyTaskId(item)) ? "♥" : "♡"}</span>
+              ${state.favorites.includes(historyTaskId(item)) ? "В избранном" : "В избранное"}
+            </button>
           </div>
-        </details>
+        </div>
       </li>`
     )
     .join("");
+}
+
+function historyItemId(item) {
+  return item.id || `${item.date}:${item.title}`;
+}
+
+function historyTaskId(item) {
+  return item.taskId || `base:${item.title}`;
 }
 
 function escapeHtml(value) {
@@ -702,24 +725,99 @@ els.clearHistory.addEventListener("click", () => {
   renderHistory();
 });
 
-function setCustomView(open) {
-  els.customView.classList.toggle("open", open);
-  els.customView.setAttribute("aria-hidden", String(!open));
-  document.body.classList.toggle("custom-view-open", open);
-  if (open) {
+function setActiveView(view) {
+  const previousView = activeView;
+  if (previousView === "home" && view !== "home") {
+    homeScrollY = window.scrollY;
+  }
+  activeView = view;
+  const customOpen = view === "custom";
+  const profileOpen = view === "profile";
+  els.customView.classList.toggle("open", customOpen);
+  els.customView.setAttribute("aria-hidden", String(!customOpen));
+  els.profileView.classList.toggle("open", profileOpen);
+  els.profileView.setAttribute("aria-hidden", String(!profileOpen));
+  document.body.classList.toggle("custom-view-open", customOpen);
+  document.body.classList.toggle("subview-open", customOpen || profileOpen);
+  els.homeButton.classList.toggle("active", view === "home");
+  els.homeButton.toggleAttribute("aria-current", view === "home");
+  els.settingsButton.classList.toggle("active", profileOpen);
+  els.settingsButton.toggleAttribute("aria-current", profileOpen);
+
+  if (customOpen) {
     els.customView.scrollTop = 0;
     setTimeout(() => els.customTitle.focus(), 180);
-  } else {
-    els.openCustomView.focus();
+  }
+
+  if (!customOpen) {
+    setCustomMoodMenu(false);
+  }
+
+  if (view === "home" && previousView !== "home") {
+    requestAnimationFrame(() => window.scrollTo({ top: homeScrollY, behavior: "auto" }));
   }
 }
 
-els.openCustomView.addEventListener("click", () => setCustomView(true));
-els.closeCustomView.addEventListener("click", () => setCustomView(false));
+els.openCustomView.addEventListener("click", () => {
+  setActiveView(activeView === "custom" ? "home" : "custom");
+});
+els.closeCustomView.addEventListener("click", () => setActiveView("home"));
+els.homeButton.addEventListener("click", () => {
+  if (activeView === "home") {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    return;
+  }
+  setActiveView("home");
+});
 
 document.addEventListener("keydown", (event) => {
-  if (event.key === "Escape" && els.customView.classList.contains("open")) {
-    setCustomView(false);
+  if (event.key === "Escape" && els.customMoodMenu.classList.contains("open")) {
+    setCustomMoodMenu(false);
+    els.customMoodButton.focus();
+    return;
+  }
+  if (event.key === "Escape" && document.body.classList.contains("subview-open")) {
+    setActiveView("home");
+  }
+});
+
+function setCustomMoodMenu(open) {
+  els.customMoodMenu.classList.toggle("open", open);
+  els.customMoodButton.setAttribute("aria-expanded", String(open));
+  els.customMoodOptions.setAttribute("aria-hidden", String(!open));
+  els.customMoodOptions.toggleAttribute("inert", !open);
+}
+
+function setCustomMood(value) {
+  const option = els.customMoodOptions.querySelector(`[data-custom-mood="${value}"]`);
+  if (!option) {
+    return;
+  }
+  els.customMood.value = value;
+  els.customMoodLabel.textContent = option.textContent;
+  els.customMoodOptions.querySelectorAll("[data-custom-mood]").forEach((button) => {
+    const selected = button === option;
+    button.classList.toggle("selected", selected);
+    button.setAttribute("aria-selected", String(selected));
+  });
+  setCustomMoodMenu(false);
+}
+
+els.customMoodButton.addEventListener("click", () => {
+  setCustomMoodMenu(!els.customMoodMenu.classList.contains("open"));
+});
+
+els.customMoodOptions.addEventListener("click", (event) => {
+  const option = event.target.closest("[data-custom-mood]");
+  if (option) {
+    setCustomMood(option.dataset.customMood);
+    els.customMoodButton.focus();
+  }
+});
+
+document.addEventListener("click", (event) => {
+  if (!event.target.closest("#customMoodMenu")) {
+    setCustomMoodMenu(false);
   }
 });
 
@@ -742,6 +840,7 @@ els.customTaskForm.addEventListener("submit", (event) => {
     energy: "на выбор",
   });
   els.customTaskForm.reset();
+  setCustomMood("quiet");
   save();
   renderAll();
   els.customTitle.focus();
@@ -772,14 +871,57 @@ els.favoriteList.addEventListener("click", (event) => {
   renderFavorites();
 });
 
+els.historyList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-delete-history]");
+  if (button) {
+    state.history = state.history.filter((item) => historyItemId(item) !== button.dataset.deleteHistory);
+    save();
+    renderTask();
+    renderHistory();
+    return;
+  }
+
+  const favoriteButton = event.target.closest("[data-history-favorite]");
+  if (favoriteButton) {
+    const id = favoriteButton.dataset.historyFavorite;
+    state.favorites = state.favorites.includes(id)
+      ? state.favorites.filter((favoriteId) => favoriteId !== id)
+      : [...state.favorites, id];
+    save();
+    renderFavoriteButton();
+    renderFavorites();
+    const isFavorite = state.favorites.includes(id);
+    favoriteButton.classList.toggle("active", isFavorite);
+    favoriteButton.innerHTML = `<span aria-hidden="true">${isFavorite ? "♥" : "♡"}</span>${isFavorite ? "В избранном" : "В избранное"}`;
+    return;
+  }
+
+  const row = event.target.closest("[data-history-row]");
+  if (!row) {
+    return;
+  }
+
+  const open = !row.classList.contains("open");
+  row.classList.toggle("open", open);
+  row.querySelector(".history-row-toggle").setAttribute("aria-expanded", String(open));
+  const details = row.querySelector(".history-details-shell");
+  details.setAttribute("aria-hidden", String(!open));
+  details.toggleAttribute("inert", !open);
+});
+
 els.settingsButton.addEventListener("click", () => {
+  const nextView = activeView === "profile" ? "home" : "profile";
+  setActiveView(nextView);
+  if (nextView !== "profile") {
+    return;
+  }
+  els.profileView.scrollTop = 0;
   els.yourName.value = state.settings.yourName || "";
   els.partnerName.value = state.settings.partnerName || "";
   els.placeHint.value = state.settings.placeHint || "";
   els.relationshipStart.value = state.settings.relationshipStart || "";
   els.relationshipStart.max = dayKey();
   els.quietMode.checked = Boolean(state.settings.quietMode);
-  els.settingsDialog.showModal();
 });
 
 els.saveSettings.addEventListener("click", () => {
@@ -792,6 +934,10 @@ els.saveSettings.addEventListener("click", () => {
   };
   save();
   renderAll();
+  els.saveSettings.textContent = "Сохранено";
+  setTimeout(() => {
+    els.saveSettings.textContent = "Сохранить";
+  }, 1000);
 });
 
 els.saveNoteButton.addEventListener("click", () => {
