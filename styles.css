@@ -957,18 +957,49 @@ body.custom-view-open .quest-fab {
   max-width: 100%;
 }
 
+.field .date-input-frame {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  min-height: 46px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fffaf4;
+  color: var(--ink);
+  font-size: 16px;
+  font-weight: 400;
+}
+
 #relationshipStart {
   display: block;
-  inline-size: 100%;
-  min-inline-size: 0;
-  max-inline-size: 100%;
+  width: 100% !important;
+  inline-size: 100% !important;
+  min-width: 0 !important;
+  min-inline-size: 0 !important;
+  max-width: 100% !important;
+  max-inline-size: 100% !important;
+  min-height: 44px;
   overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
   font-size: 16px;
 }
 
 #relationshipStart::-webkit-date-and-time-value {
+  width: 100%;
   min-width: 0;
+  margin: 0;
   text-align: left;
+}
+
+@supports (-webkit-touch-callout: none) {
+  #relationshipStart {
+    appearance: none;
+    -webkit-appearance: none;
+  }
 }
 
 .field span,
